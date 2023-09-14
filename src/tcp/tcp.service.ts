@@ -6,7 +6,7 @@ export class TcpService {
   private server: net.Server;
   private readonly logger = new Logger(TcpService.name);
 
-  startServer(port: number = 8080) {
+  startServer(port: number) {
     this.server = net.createServer((socket: net.Socket) => {
       this.logger.log('Client connected.');
 
