@@ -1,8 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as net from 'net';
+import { DevicesService } from '../devices/devices.service';
 
 @Injectable()
 export class TcpService {
+  constructor(private readonly devicesService: DevicesService) {}
+
   private server: net.Server;
   private readonly logger = new Logger(TcpService.name);
 
@@ -15,7 +18,7 @@ export class TcpService {
 
       socket.on('data', (data: Buffer) => {
         const hexData = data.toString('hex');
-        this.logger.log(`Message received: ${hexData}`);
+        this.logger.log(`Message received: ${hexData.toUpperCase()}`);
 
         // Parse the incoming message
         const parsedMessage = this.parseMessage(hexData);
@@ -25,9 +28,25 @@ export class TcpService {
           // Respond with a Ping ACK
           this.sendPingAck(socket, parsedMessage.data);
         }
+
+        // Check if it's a Location request
+        if (parsedMessage && parsedMessage.messageType === this.LOCATION_TYPE) {
+          // store the data within the devices module
+          this.devicesService.newLocation(
+            parsedMessage.deviceId,
+            parsedMessage.data,
+          );
+          this.logger.log('Location acquired');
+        }
+
+        socket.end();
       });
 
       socket.on('end', () => {
+        this.logger.log('Client disconnected.');
+      });
+
+      socket.on('error', () => {
         this.logger.log('Client disconnected.');
       });
     });
@@ -39,7 +58,7 @@ export class TcpService {
 
   private parseMessage(hexData: string) {
     // Check if the received message has the correct length
-    if (hexData.length !== 24 && hexData.length !== 64) {
+    if (![24, 66, 70].includes(hexData.length)) {
       this.logger.error('Invalid message length.');
       return null;
     }
@@ -70,8 +89,6 @@ export class TcpService {
       footer,
     };
 
-    console.log(parsedMessage);
-
     return parsedMessage;
   }
 
@@ -79,6 +96,6 @@ export class TcpService {
     // Create and send a Ping ACK response
     const pingAckMessage = `50F701${data}73C4`; // Replace <ID> and <MessageType> as needed
 
-    socket.write(Buffer.from(pingAckMessage, 'hex'));
+    socket.write(Buffer.from(pingAckMessage.toUpperCase()));
   }
 }

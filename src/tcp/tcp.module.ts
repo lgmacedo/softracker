@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TcpService } from './tcp.service';
+import { DevicesModule } from '../devices/devices.module';
 
 @Module({
-  providers: [TcpService]
+  imports: [DevicesModule],
+  providers: [TcpService],
 })
 export class TcpModule {}
