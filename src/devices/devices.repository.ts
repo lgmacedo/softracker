@@ -7,7 +7,9 @@ export class DevicesRepository {
 
   insertLocation(device: Device) {
     this.devices.unshift(device);
+  }
 
-    console.log(this.devices);
+  findLocationByDeviceId(deviceId: number) {
+    return this.devices.find((d) => d.id === deviceId);
   }
 }

@@ -1,17 +1,21 @@
 export class Device {
   constructor(
-    private id: number,
-    private date: string,
-    private direction: number,
-    private distance: number,
-    private time: number,
-    private fixed_gps: boolean,
-    private historic_gps: boolean,
-    private ignition: boolean,
-    private negative_latitude: boolean,
-    private negative_longitude: boolean,
-    private current_speed: number,
-    private latitude: number,
-    private longitude: number,
+    private _id: number,
+    private _date: string,
+    private _direction: number,
+    private _distance: number,
+    private _time: number,
+    private _fixed_gps: boolean,
+    private _historic_gps: boolean,
+    private _ignition: boolean,
+    private _negative_latitude: boolean,
+    private _negative_longitude: boolean,
+    private _current_speed: number,
+    private _latitude: number,
+    private _longitude: number,
   ) {}
+
+  get id() {
+    return this._id;
+  }
 }

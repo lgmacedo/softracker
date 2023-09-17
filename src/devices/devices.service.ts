@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DevicesRepository } from './devices.repository';
 
 import epochSecondsToDateString from './helpers/epochToDate';
@@ -21,16 +21,22 @@ export class DevicesService {
       parseInt(deviceHexData.slice(8, 12), 16),
       parseInt(deviceHexData.slice(12, 20), 16),
       parseInt(deviceHexData.slice(20, 28), 16),
-      values_composition[0] === '1' ? true : false,
-      values_composition[1] === '1' ? true : false,
-      values_composition[2] === '1' ? true : false,
-      values_composition[3] === '1' ? true : false,
-      values_composition[4] === '1' ? true : false,
+      values_composition[0] === '1',
+      values_composition[1] === '1',
+      values_composition[2] === '1',
+      values_composition[3] === '1',
+      values_composition[4] === '1',
       parseInt(deviceHexData.slice(-18, -16), 16),
       parseInt(deviceHexData.slice(-16, -8), 16) / 10 ** 6,
       parseInt(deviceHexData.slice(-8), 16) / 10 ** 6,
     );
 
     this.devicesRepository.insertLocation(device);
+  }
+
+  getDeviceLocation(deviceId: number) {
+    const device = this.devicesRepository.findLocationByDeviceId(deviceId);
+    if (!device) throw new NotFoundException('Device was not found');
+    return device;
   }
 }
