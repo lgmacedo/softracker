@@ -18,7 +18,7 @@ export class DevicesService {
     const device = new Device(
       deviceId,
       epochSecondsToDateString(deviceHexData.slice(0, 8)),
-      parseInt(deviceHexData.slice(8, 12), 16) % 360,
+      parseInt(deviceHexData.slice(8, 12), 16) / 100,
       parseInt(deviceHexData.slice(12, 20), 16),
       parseInt(deviceHexData.slice(20, 28), 16),
       values_composition[0] === '1',

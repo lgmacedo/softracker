@@ -7,7 +7,7 @@ export class DevicesRepository {
     new Device(
       671603,
       '2020-07-01T18:00:00',
-      87,
+      54.87,
       25000000,
       36000,
       true,
