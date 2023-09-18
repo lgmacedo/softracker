@@ -78,6 +78,7 @@ $ Location acquired
 6. The object retrieved from the request should look like this:
    
 {
+
     "_id": 671603,
     
     "_date": "2020-07-01T18:00:00",
@@ -103,6 +104,9 @@ $ Location acquired
     "_latitude": 19.932833,
     
     "_longitude": 43.938493
+    
 }
 
 ## Project structure
+
+## Next steps
