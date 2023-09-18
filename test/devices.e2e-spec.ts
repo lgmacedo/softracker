@@ -20,6 +20,21 @@ describe('DevicesController (e2e)', () => {
       `/api/v1/location/671603`,
     );
     expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({
+      _id: 671603,
+      _date: '2020-07-01T18:00:00',
+      _direction: 54.87,
+      _distance: 25000000,
+      _time: 36000,
+      _fixed_gps: true,
+      _historic_gps: true,
+      _ignition: true,
+      _negative_latitude: true,
+      _negative_longitude: true,
+      _current_speed: 60,
+      _latitude: 19.932833,
+      _longitude: 43.938493,
+    });
   });
 
   it('GET /api/v1/location/:device_id should return status 400 when deviceId is not valid', async () => {
