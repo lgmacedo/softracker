@@ -79,36 +79,27 @@ $ Location acquired
 
 ```bash
 {
-
     "_id": 671603,
-    
     "_date": "2020-07-01T18:00:00",
-    
     "_direction": 87,
-    
     "_distance": 25000000,
-    
     "_time": 36000,
-    
     "_fixed_gps": true,
-    
     "_historic_gps": true,
-    
     "_ignition": true,
-    
     "_negative_latitude": true,
-    
     "_negative_longitude": true,
-    
     "_current_speed": 60,
-    
     "_latitude": 19.932833,
-    
     "_longitude": 43.938493
-    
 }
 ```
 
 ## Project structure
 
 ## Next steps
+
+Future functionalities that will be brought to Softracker:
+
+- Data storage using a SQL database and Prisma ORM.
+- User validation through JWT, associating devices with users so that a given device can only be seen by their respective owners.
