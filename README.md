@@ -7,19 +7,18 @@
 
 ## Softracker
 
-This is an architecture receives points from trackers and provide an endpoint where the last location of a specific tracker can be consulted.
-A TCP connection is opened within the server and then the tracker sends location data through it. Later on, users can send a request to the server and then all data captured by the tracker will be retrieved.
+Softracker is an architecture designed to receive location data from trackers and provide an endpoint for querying the last known location of specific trackers. It establishes a TCP connection with the trackers, enabling them to transmit location data to the server. Later, users can send requests to retrieve all data captured by the trackers.
 
 ## Setup
-Creating a .env file in the project's root is highly recommended, as you can customize the ports you want the server to use.
+It is highly recommended to create a `.env` file in the project's root directory, allowing you to customize the server's port configurations.
 
 Values to be defined:
 
-PORT: This is the port in which the server will run
+PORT: This is the port in which the server will run.
 
-TCP_PORT: This is the port in which the server will open the TCP connection
+TCP_PORT: This is the port in which the server will open the TCP connection.
 
-If they are not defined, the API will use default values: 3000 for PORT and 8080 for TCP_PORT
+If not defined, the API will use default values: `3000` for `PORT` and `8080` for `TCP_PORT`.
 
 ## Installation
 
@@ -40,20 +39,20 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Automated testing
 
 ```bash
 # e2e tests
 $ npm run test:e2e
 ```
 
-IMPORTANT: Please note that the server must be operating before running the tests
+IMPORTANT: Ensure that the server is operational before running the tests.
 
-## If you want to test it manually
+## Manual testing
 
-Follow the commands below and change the values inserted as you like, as long as they are covered by the server requirements.
+To manually test the application, follow the commands below. You can customize the values as needed, as long as they adhere to the server's requirements.
 
-1. Send a Heartbeat request to the server
+1. Using netcat, send a Heartbeat request to the server
 ```bash
 $ echo -n 50F70A3F730150494E4773C4 | xxd -r -p | nc -v localhost 8080
 ```
@@ -63,7 +62,7 @@ $ echo -n 50F70A3F730150494E4773C4 | xxd -r -p | nc -v localhost 8080
 $ 50F70150494E4773C4
 ```
 
-3. Send a Location request to the server
+3. Using netcat, send a Location request to the server
 ```bash
 $ echo -n 50F70A3F73025EFCF950156F017D784000008CA0F80084003C013026A1029E72BD73C4 | xxd -r -p | nc -v localhost 8080
 ```
@@ -73,15 +72,15 @@ $ echo -n 50F70A3F73025EFCF950156F017D784000008CA0F80084003C013026A1029E72BD73C4
 $ Location acquired
 ```
 
-5. Send a request to the GET /api/v1/location/:device_id route, in which device_id is the id of the device you sent in step 3, but now in its decimal form.
+5. Send a request to the GET /api/v1/location/:device_id route, where device_id is the ID of the device you sent in step 3, but in decimal form.
 
-6. The object retrieved from the request should look like this:
+6. The retrieved object should look like this:
 
 ```bash
 {
     "_id": 671603,
     "_date": "2020-07-01T18:00:00",
-    "_direction": 87,
+    "_direction": 54.87,
     "_distance": 25000000,
     "_time": 36000,
     "_fixed_gps": true,
@@ -97,9 +96,11 @@ $ Location acquired
 
 ## Project structure
 
+The project is structured into the 'src' folder, containing the 'tcp' and 'devices' modules. 'tcp' implements the TcpModule, while 'devices' implements the DevicesModule. NestJS modules provide modularity, maintainability, and reusability. The 'test' folder contains automated test implementations.
+
 ## Next steps
 
-Future functionalities that will be brought to Softracker:
+Future enhancements planned for Softracker:
 
-- Data storage using a SQL database and Prisma ORM.
-- User validation through JWT, associating devices with users so that a given device can only be seen by their respective owners.
+- Implement data storage using a SQL database and Prisma ORM.
+- Implement user validation through JWT, associating devices with users to ensure that each device's data can only be accessed by its respective owner.
