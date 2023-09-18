@@ -7,7 +7,15 @@
 
 ## Softracker
 
-An architecture that can receive points from trackers and provide an endpoint where the last location of a specific tracker can be consulted. Built with NestJS.
+This is an architecture receives points from trackers and provide an endpoint where the last location of a specific tracker can be consulted.
+A TCP connection is opened within the server and then the tracker sends location data through it. Later on, users can send a request to the server and then all data captured by the tracker will be retrieved.
+
+## Setup
+Creating a .env file in the project's root is highly recommended, as you can customize the ports you want the server to use.
+
+Values to be defined:
+PORT: This is the port in which the server will run
+TCP_PORT: This is the port in which the server will open the TCP connection
 
 ## Installation
 
@@ -31,26 +39,10 @@ $ npm run start:prod
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
-
 # e2e tests
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
-## Support
+IMPORTANT: Please note that the server must be operating before running the tests
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## If you want to test it manually
