@@ -12,6 +12,10 @@ export class TcpService {
   private PING_TYPE = 1;
   private LOCATION_TYPE = 2;
 
+  private HEARTBEAT_MESSAGE_LENGTH = 24;
+  private LOCATION_MESSAGE_LENGTH = 66;
+  private ALT_LOC_MESSAGE_LENGTH = 70;
+
   startServer(port: number) {
     this.server = net.createServer((socket: net.Socket) => {
       this.logger.log('Client connected.');
@@ -36,7 +40,10 @@ export class TcpService {
             parsedMessage.deviceId,
             parsedMessage.data,
           );
-          this.logger.log('Location acquired');
+
+          const locationMessage = `Location acquired`;
+          this.logger.log(locationMessage);
+          socket.write(Buffer.from(locationMessage));
         }
 
         socket.end();
@@ -58,17 +65,23 @@ export class TcpService {
 
   private parseMessage(hexData: string) {
     // Check if the received message has the correct length
-    if (![24, 66, 70].includes(hexData.length)) {
+    if (
+      ![
+        this.HEARTBEAT_MESSAGE_LENGTH,
+        this.LOCATION_MESSAGE_LENGTH,
+        this.ALT_LOC_MESSAGE_LENGTH,
+      ].includes(hexData.length)
+    ) {
       this.logger.error('Invalid message length.');
       return null;
     }
 
     // Extract header, device ID, message type, data, and footer
-    const header = hexData.slice(0, 4);
-    const deviceId = hexData.slice(4, 10);
-    const messageType = hexData.slice(10, 12);
-    const data = hexData.slice(12, hexData.length - 4);
-    const footer = hexData.slice(-4);
+    const header = hexData.slice(0, 4); // Header corresponds to the first two bytes of data
+    const deviceId = hexData.slice(4, 10); // DeviceId corresponds to three bytes of data after the Header
+    const messageType = hexData.slice(10, 12); // MessageType corresponds to one byte of data after the deviceId
+    const data = hexData.slice(12, hexData.length - 4); // Data has a variable size but is always comes betweem messageType and Footer
+    const footer = hexData.slice(-4); // Footer corresponds to the last two bytes of data
 
     // Check if the header and footer are correct
     if (header.toUpperCase() !== '50F7' || footer.toUpperCase() !== '73C4') {
@@ -94,7 +107,7 @@ export class TcpService {
 
   private sendPingAck(socket: net.Socket, data: string) {
     // Create and send a Ping ACK response
-    const pingAckMessage = `50F701${data}73C4`; // Replace <ID> and <MessageType> as needed
+    const pingAckMessage = `50F701${data}73C4`; // First two bytes corresponds to Header, then one byte for CommandType, then Data received and finally the Footer
 
     socket.write(Buffer.from(pingAckMessage.toUpperCase()));
   }
