@@ -73,22 +73,36 @@ $ echo -n 50F70A3F73025EFCF950156F017D784000008CA0F80084003C013026A1029E72BD73C4
 $ Location acquired
 ```
 
-5. Send a request to the GET /api/v1/location/:device_id route, in which device_id is the id of the device you send in step 3, now, in its decimal form.
+5. Send a request to the GET /api/v1/location/:device_id route, in which device_id is the id of the device you sent in step 3, but now in its decimal form.
 
 6. The object retrieved from the request should look like this:
+   
 {
     "_id": 671603,
+    
     "_date": "2020-07-01T18:00:00",
+    
     "_direction": 87,
+    
     "_distance": 25000000,
+    
     "_time": 36000,
+    
     "_fixed_gps": true,
+    
     "_historic_gps": true,
+    
     "_ignition": true,
+    
     "_negative_latitude": true,
+    
     "_negative_longitude": true,
+    
     "_current_speed": 60,
+    
     "_latitude": 19.932833,
+    
     "_longitude": 43.938493
 }
 
+## Project structure
