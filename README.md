@@ -76,7 +76,8 @@ $ Location acquired
 5. Send a request to the GET /api/v1/location/:device_id route, in which device_id is the id of the device you sent in step 3, but now in its decimal form.
 
 6. The object retrieved from the request should look like this:
-   
+
+```bash
 {
 
     "_id": 671603,
@@ -106,6 +107,7 @@ $ Location acquired
     "_longitude": 43.938493
     
 }
+```
 
 ## Project structure
 
