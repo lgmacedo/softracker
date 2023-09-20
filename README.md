@@ -98,6 +98,8 @@ $ Location acquired
 
 The project is structured into the 'src' folder, containing the 'tcp' and 'devices' modules. 'tcp' implements the TcpModule, while 'devices' implements the DevicesModule. NestJS modules provide modularity, maintainability, and reusability. The 'test' folder contains automated test implementations.
 
+![softracker drawio](https://github.com/lgmacedo/softracker/assets/83235488/875a8fd3-51f4-475c-b496-f7ee75882200)
+
 ## Next steps
 
 Future enhancements planned for Softracker:
